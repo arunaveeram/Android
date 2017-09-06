@@ -1,1282 +1,1038 @@
-package com.example.veera.myapplication_flags;
+package com.example.veera.myapplication_game;
 
-import android.content.Intent;
-import android.content.res.AssetManager;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.FrameLayout;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
-import java.io.IOException;
-import java.io.InputStream;
+import static android.view.View.VISIBLE;
 
-public class secondActivity extends AppCompatActivity {
-      TextView textView,textView1;
-      Button btn1,btn2,btn3,btn4,btn5;
-    ImageView img1,img2,img3,img4,img5;
-    AssetManager mgr;
-    String[] flagList;
-    int i,j=0,k=0,l=0,m=0,n=0,o=0,p=0,q=0,r=0,s=0;
-    int width, height;
+
+public class secondActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener
+{
+
+    Spinner spinner;
+    ImageView imgv1,imgv2,imgv3,imgv4,imgv5,imgv6,imgv7,imgv8,imgv9,imgv10,imgv11,imgv12,imgv13,imgv14,imgv15,imgv16,imgv17,imgv18,imgv19,imgv20;
+    int i,j,k,l,m,n,o,p,q,r,s,t,u,w,x,y,z,a,b,c,d;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_second);
-        DisplayMetrics dim=new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dim);
-        int width=dim.widthPixels;
-        int height=dim.heightPixels;
 
-        img1 = (ImageView)findViewById(R.id.imageView);
-        img2 = (ImageView)findViewById(R.id.imageView2);
-        img3 = (ImageView)findViewById(R.id.imageView3);
-        img4 = (ImageView)findViewById(R.id.imageView4);
-        img5=(ImageView)findViewById(R.id.imageView5) ;
-        textView1 = (TextView)findViewById(R.id.textView) ;
-        textView = (TextView)findViewById(R.id.textView3) ;
-        btn1 = (Button)findViewById(R.id.button1);
-        btn2 = (Button)findViewById(R.id.button2);
-        btn3 = (Button)findViewById(R.id.button3);
-        btn4 = (Button)findViewById(R.id.button4);
-        btn5 = (Button)findViewById(R.id.button5);
+        spinner = (Spinner) findViewById(R.id.spinner1);
 
-
-        FrameLayout.LayoutParams vf1 = new FrameLayout.LayoutParams((int)(width*.3),(int)(height*.05));
-        vf1.setMargins((int)(width*.1),(int)(height*.1), 0, 0);
-        textView1.setLayoutParams(vf1);
-        FrameLayout.LayoutParams vf2 = new FrameLayout.LayoutParams((int)(width*.2),(int)(height*.1));
-        vf2.setMargins((int)(width*.4),(int)(height*.2), 0, 0);
-        textView.setLayoutParams(vf2);
-
-        FrameLayout.LayoutParams vf3 = new FrameLayout.LayoutParams((int)(width*.3),(int)(height*.15));
-        vf3.setMargins((int)(width*.1),(int)(height*.25), 0, 0);
-        img1.setLayoutParams(vf3);
-
-        FrameLayout.LayoutParams vf4 = new FrameLayout.LayoutParams((int)(width*.3),(int)(height*.15));
-        vf4.setMargins((int)(width*.6),(int)(height*.25), 0, 0);
-        img2.setLayoutParams(vf4);
-
-        FrameLayout.LayoutParams vf5 = new FrameLayout.LayoutParams((int)(width*.3),(int)(height*.15));
-        vf5.setMargins((int)(width*.1),(int)(height*.4), 0, 0);
-        img3.setLayoutParams(vf5);
-
-        FrameLayout.LayoutParams vf6 = new FrameLayout.LayoutParams((int)(width*.3),(int)(height*.15));
-        vf6.setMargins((int)(width*.6),(int)(height*.4), 0, 0);
-        img4.setLayoutParams(vf6);
-
-        FrameLayout.LayoutParams vf7 = new FrameLayout.LayoutParams((int)(width*.5),(int)(height*.4));
-        vf7.setMargins((int)(width*.25),(int)(height*.3), 0, 0);
-        img5.setLayoutParams(vf7);
-
-        FrameLayout.LayoutParams vf8 = new FrameLayout.LayoutParams((int)(width*.4),(int)(height*.1));
-        vf8.setMargins(0,(int)(height*.6), 0, 0);
-        btn1.setLayoutParams(vf8);
-        FrameLayout.LayoutParams vf9 = new FrameLayout.LayoutParams((int)(width*.4),(int)(height*.1));
-        vf9.setMargins((int)(width*.5),(int)(height*.6), 0, 0);
-        btn2.setLayoutParams(vf9);
-        FrameLayout.LayoutParams vf10 = new FrameLayout.LayoutParams((int)(width*.4),(int)(height*.1));
-        vf10.setMargins(0,(int)(height*.7), 0, 0);
-        btn3.setLayoutParams(vf10);
-        FrameLayout.LayoutParams vf11 = new FrameLayout.LayoutParams((int)(width*.4),(int)(height*.1));
-        vf11.setMargins((int)(width*.5),(int)(height*.7), 0, 0);
-        btn4.setLayoutParams(vf11);
-        FrameLayout.LayoutParams vf12 = new FrameLayout.LayoutParams((int)(width*.4),(int)(height*.1));
-        vf12.setMargins((int)(width*.5),(int)(height*.7), 0, 0);
-        btn5.setLayoutParams(vf12);
-
-        question1();
-        //get the info from activity 1
-        Intent tent = getIntent();
-        String theString = tent.getStringExtra("info");
-        btn1.setText(theString);
-    }
-    public void dorotate(){
-        //load animation xml
-        Animation rotate = AnimationUtils.loadAnimation(secondActivity.this,R.anim.rotate);
-        //set a variable listener that will show a toast when the animation is done
-        rotate.setAnimationListener(rotateListener);
-        //use the animation
-        btn1.startAnimation(rotate);
-    }
-    Animation.AnimationListener rotateListener = new Animation.AnimationListener() {
-        @Override
-        public void onAnimationStart(Animation animation) {
-
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            switch (i)
-            {
-                case 1:
-                    question2();
-                    break;
-                case 2:
-                    question3();
-                    break;
-                case 3:
-                    question4();
-                    break;
-                case 4:
-                    question5();
-                    break;
-                case 5:
-                    question6();
-                    break;
-                case 6:
-                    question7();
-                    break;
-                case 7:
-                    question8();
-                    break;
-                case 8:
-                    question9();
-                    break;
-                case 9:
-                    question10();
-                    break;
-                case 10:
-                        Intent intent = new Intent(secondActivity.this,thirdActivity.class);
-                        //add some info to intent to be sent to activity 2
-                        intent.putExtra("info1","Question1 Incorrect count:  "+j);
-                        intent.putExtra("info2","Question2 Incorrect count:  "+k);
-                        intent.putExtra("info3","Question3 Incorrect count:  "+l);
-                        intent.putExtra("info4","Question4 Incorrect count:  "+m);
-                        intent.putExtra("info5","Question5 Incorrect count:  "+n);
-                        intent.putExtra("info6","Question6 Incorrect count:  "+o);
-                        intent.putExtra("info7","Question7 Incorrect count:  "+p);
-                        intent.putExtra("info8","Question8 Incorrect count:  "+q);
-                        intent.putExtra("info9","Question9 Incorrect count:  "+r);
-                        intent.putExtra("info10","Question10 Incorrect count:  "+s);
-
-
-                    //2 methods
-                        //startActivity(intent);
-                        //if info is coming back
-                        startActivityForResult(intent,100);
-
-
-            }
-
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-
-        }
-    };
-
-    public void doshake(){
-        //load animation xml
-        Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-        //set a variable listener that will show a toast when the animation is done
-        shake.setAnimationListener(shakeListener);
-        //use the animation
-        btn2.startAnimation(shake);
-
-    }
-    Animation.AnimationListener shakeListener = new Animation.AnimationListener() {
-        @Override
-        public void onAnimationStart(Animation animation) {
-
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-           // Toast.makeText(secondActivity.this,"shake done",Toast.LENGTH_LONG).show();
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-
-        }
-    };
-    public void question1()
-    {
-        textView1.setText("Question 1 of 10");
-        mgr = getAssets();
-        //list of items in a particular
-        flagList = new String[4];
-        try {
-            flagList = mgr.list("Asia");
-            //get the first flag
-            InputStream image = mgr.open("Asia/"+flagList[0]);
-            Drawable drawable = Drawable.createFromStream(image,null);
-            img1.setImageDrawable(drawable);
-
-
-            InputStream image2 = mgr.open("Asia/"+flagList[1]);
-            Drawable drawable2 = Drawable.createFromStream(image2,null);
-            img2.setImageDrawable(drawable2);
-
-
-            InputStream image3 = mgr.open("Asia/"+flagList[2]);
-            Drawable drawable3 = Drawable.createFromStream(image3,null);
-            img3.setImageDrawable(drawable3);
-
-
-            InputStream image4 = mgr.open("Asia/"+flagList[3]);
-            Drawable drawable4 = Drawable.createFromStream(image4,null);
-            img4.setImageDrawable(drawable4);
-
-            InputStream image5 = mgr.open("Asia/"+flagList[2]);
-            Drawable drawable5 = Drawable.createFromStream(image5,null);
-            img5.setImageDrawable(drawable5);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("list","folder not found");
-        }
-
-
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setVisibility(View.VISIBLE);
-                textView.setText("correct");
-                textView.setTextColor(Color.GREEN);
-                dorotate();
-                btn2.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                i=1;
-            }
-        });
-
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setVisibility(View.VISIBLE);
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                doshake();
-                btn1.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                j++;
-            }
-        });
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setVisibility(View.VISIBLE);
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                btn1.setAlpha(0.5f);
-                btn2.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn3.startAnimation(shake);
-                j++;
-
-            }
-        });
-        btn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setVisibility(View.VISIBLE);
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                btn1.setAlpha(0.5f);
-                btn2.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn4.startAnimation(shake);
-                j++;
-            }
-        });
-    }
-
-    public void question2()
-    {
-
-        textView1.setText("Question 2 of 10");
-        //  Toast.makeText(secondActivity.this,"rotate done",Toast.LENGTH_LONG).show();
-        img5.setVisibility(View.VISIBLE);
-        img1.setVisibility(View.INVISIBLE);
-        img2.setVisibility(View.INVISIBLE);
-        img3.setVisibility(View.INVISIBLE);
-        img4.setVisibility(View.INVISIBLE);
-        btn1.setAlpha(1.0f);
-        btn2.setAlpha(1.0f);
-        btn3.setAlpha(1.0f);
-        btn4.setAlpha(1.0f);
-
-        btn1.setText(flagList[1].substring(flagList[1].indexOf('-')+1).replace(".png",""));
-
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn1.startAnimation(shake);
-                btn2.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                k++;
-
-            }
-        });
-
-
-        btn2.setText(flagList[2].substring(flagList[2].indexOf('-')+1).replace(".png",""));
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("AWESOME!");
-                textView.setTextColor(Color.GREEN);
-                btn1.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-               // rotation();
-
-                Animation rotate = AnimationUtils.loadAnimation(secondActivity.this,R.anim.rotate);
-                //set a variable listener that will show a toast when the animation is done
-                rotate.setAnimationListener(rotateListener);
-                //use the animation
-                img5.startAnimation(rotate);
-               i=2;
-
-
-            }
-        });
-
-        btn3.setText(flagList[3].substring(flagList[3].indexOf('-')+1).replace(".png",""));
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn3.startAnimation(shake);
-                btn2.setAlpha(0.5f);
-                btn1.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                k++;
-
-            }
-        });
-
-        btn4.setText(flagList[4].substring(flagList[4].indexOf('-')+1).replace(".png",""));
-        btn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn4.startAnimation(shake);
-                btn2.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn1.setAlpha(0.5f);
-                k++;
-
-            }
-        });
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.list, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
 
 
 
     }
-
-
-    public void question3()
-    {
-        img5.setVisibility(View.INVISIBLE);
-        img1.setVisibility(View.VISIBLE);
-        img2.setVisibility(View.VISIBLE);
-        img3.setVisibility(View.VISIBLE);
-        img4.setVisibility(View.VISIBLE);
-        btn1.setAlpha(1.0f);
-        btn2.setAlpha(1.0f);
-        btn3.setAlpha(1.0f);
-        btn4.setAlpha(1.0f);
-
-
-        textView1.setText("Question 3 of 10");
-        mgr = getAssets();
-        //list of items in a particular
-        flagList = new String[4];
-        try {
-            flagList = mgr.list("Africa");
-            //get the first flag
-            InputStream image = mgr.open("Africa/"+flagList[0]);
-            Drawable drawable = Drawable.createFromStream(image,null);
-            img1.setImageDrawable(drawable);
-
-
-            InputStream image2 = mgr.open("Africa/"+flagList[1]);
-            Drawable drawable2 = Drawable.createFromStream(image2,null);
-            img2.setImageDrawable(drawable2);
-
-
-            InputStream image3 = mgr.open("Africa/"+flagList[2]);
-            Drawable drawable3 = Drawable.createFromStream(image3,null);
-            img3.setImageDrawable(drawable3);
-
-
-            InputStream image4 = mgr.open("Africa/"+flagList[3]);
-            Drawable drawable4 = Drawable.createFromStream(image4,null);
-            img4.setImageDrawable(drawable4);
-
-            InputStream image5 = mgr.open("Africa/"+flagList[2]);
-            Drawable drawable5 = Drawable.createFromStream(image5,null);
-            img5.setImageDrawable(drawable5);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("list","folder not found");
-        }
-       btn1.setText("Asia");
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn1.startAnimation(shake);
-
-                btn2.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                l++;
-                btn4.setAlpha(0.5f);
-            }
-        });
-        btn2.setText("Africa");
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                textView.setText("correct");
-                textView.setTextColor(Color.GREEN);
-                Animation rotate = AnimationUtils.loadAnimation(secondActivity.this,R.anim.rotate);
-                //set a variable listener that will show a toast when the animation is done
-                rotate.setAnimationListener(rotateListener);
-                //use the animation
-                btn2.startAnimation(rotate);
-
-                btn1.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                i=3;
-            }
-        });
-        btn3.setText("Europe");
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                btn1.setAlpha(0.5f);
-                btn2.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn3.startAnimation(shake);
-                l++;
-
-            }
-        });
-        btn4.setText("North_America");
-        btn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                btn1.setAlpha(0.5f);
-                btn2.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn4.startAnimation(shake);
-                l++;
-
-            }
-        });
-
-    }
-    public void question4()
-    {
-        textView1.setText("Question 4 of 10");
-        //  Toast.makeText(secondActivity.this,"rotate done",Toast.LENGTH_LONG).show();
-        img5.setVisibility(View.VISIBLE);
-        img1.setVisibility(View.INVISIBLE);
-        img2.setVisibility(View.INVISIBLE);
-        img3.setVisibility(View.INVISIBLE);
-        img4.setVisibility(View.INVISIBLE);
-        btn1.setAlpha(1.0f);
-        btn2.setAlpha(1.0f);
-        btn3.setAlpha(1.0f);
-        btn4.setAlpha(1.0f);
-
-        btn1.setText(flagList[1].substring(flagList[1].indexOf('-')+1).replace(".png",""));
-
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn1.startAnimation(shake);
-                btn2.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                m++;
-
-            }
-        });
-
-
-        btn2.setText(flagList[2].substring(flagList[2].indexOf('-')+1).replace(".png",""));
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("AWESOME!");
-                textView.setTextColor(Color.GREEN);
-                btn1.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                // rotation();
-
-                Animation rotate = AnimationUtils.loadAnimation(secondActivity.this,R.anim.rotate);
-                //set a variable listener that will show a toast when the animation is done
-                rotate.setAnimationListener(rotateListener);
-                //use the animation
-                img5.startAnimation(rotate);
-                i=4;
-
-            }
-        });
-
-        btn3.setText(flagList[3].substring(flagList[3].indexOf('-')+1).replace(".png",""));
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn3.startAnimation(shake);
-                btn2.setAlpha(0.5f);
-                btn1.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                m++;
-
-            }
-        });
-
-        btn4.setText(flagList[4].substring(flagList[4].indexOf('-')+1).replace(".png",""));
-        btn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn4.startAnimation(shake);
-                btn2.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn1.setAlpha(0.5f);
-                m++;
-            }
-        });
-
-
-    }
-    public void question5()
-    {
-        img5.setVisibility(View.INVISIBLE);
-        img1.setVisibility(View.VISIBLE);
-        img2.setVisibility(View.VISIBLE);
-        img3.setVisibility(View.VISIBLE);
-        img4.setVisibility(View.VISIBLE);
-
-        btn1.setAlpha(1.0f);
-        btn2.setAlpha(1.0f);
-        btn3.setAlpha(1.0f);
-        btn4.setAlpha(1.0f);
-
-
-        textView1.setText("Question 5 of 10");
-        mgr = getAssets();
-        //list of items in a particular
-        flagList = new String[4];
-        try {
-            flagList = mgr.list("Europe");
-            //get the first flag
-            InputStream image = mgr.open("Europe/"+flagList[0]);
-            Drawable drawable = Drawable.createFromStream(image,null);
-            img1.setImageDrawable(drawable);
-
-
-            InputStream image2 = mgr.open("Europe/"+flagList[1]);
-            Drawable drawable2 = Drawable.createFromStream(image2,null);
-            img2.setImageDrawable(drawable2);
-
-
-            InputStream image3 = mgr.open("Europe/"+flagList[2]);
-            Drawable drawable3 = Drawable.createFromStream(image3,null);
-            img3.setImageDrawable(drawable3);
-
-
-            InputStream image4 = mgr.open("Europe/"+flagList[3]);
-            Drawable drawable4 = Drawable.createFromStream(image4,null);
-            img4.setImageDrawable(drawable4);
-
-            InputStream image5 = mgr.open("Europe/"+flagList[2]);
-            Drawable drawable5 = Drawable.createFromStream(image5,null);
-            img5.setImageDrawable(drawable5);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("list","folder not found");
-        }
-        btn1.setText("Asia");
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn1.startAnimation(shake);
-
-                btn2.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                n++;
-            }
-        });
-        btn2.setText("Africa");
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn2.startAnimation(shake);
-
-                btn1.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                n++;
-
-            }
-        });
-        btn3.setText("Europe");
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("correct");
-                textView.setTextColor(Color.GREEN);
-
-                btn1.setAlpha(0.5f);
-                btn2.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                Animation rotate = AnimationUtils.loadAnimation(secondActivity.this,R.anim.rotate);
-                //set a variable listener that will show a toast when the animation is done
-                rotate.setAnimationListener(rotateListener);
-                //use the animation
-                btn3.startAnimation(rotate);
-                i=5;
-
-            }
-        });
-        btn4.setText("North_America");
-        btn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                btn1.setAlpha(0.5f);
-                btn2.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn4.startAnimation(shake);
-                n++;
-
-            }
-        });
-
-    }
-    public void question6()
-    {
-        textView1.setText("Question 6 of 10");
-        //  Toast.makeText(secondActivity.this,"rotate done",Toast.LENGTH_LONG).show();
-        img5.setVisibility(View.VISIBLE);
-        img1.setVisibility(View.INVISIBLE);
-        img2.setVisibility(View.INVISIBLE);
-        img3.setVisibility(View.INVISIBLE);
-        img4.setVisibility(View.INVISIBLE);
-        btn1.setAlpha(1.0f);
-        btn2.setAlpha(1.0f);
-        btn3.setAlpha(1.0f);
-        btn4.setAlpha(1.0f);
-
-        btn1.setText(flagList[1].substring(flagList[1].indexOf('-')+1).replace(".png",""));
-
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn1.startAnimation(shake);
-                btn2.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                o++;
-
-            }
-        });
-
-
-        btn2.setText(flagList[2].substring(flagList[2].indexOf('-')+1).replace(".png",""));
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("AWESOME!");
-                textView.setTextColor(Color.GREEN);
-                btn1.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                // rotation();
-
-                Animation rotate = AnimationUtils.loadAnimation(secondActivity.this,R.anim.rotate);
-                //set a variable listener that will show a toast when the animation is done
-                rotate.setAnimationListener(rotateListener);
-                //use the animation
-                img5.startAnimation(rotate);
-                i=6;
-
-
-            }
-        });
-
-        btn3.setText(flagList[3].substring(flagList[3].indexOf('-')+1).replace(".png",""));
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn3.startAnimation(shake);
-                btn2.setAlpha(0.5f);
-                btn1.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                o++;
-
-            }
-        });
-
-        btn4.setText(flagList[4].substring(flagList[4].indexOf('-')+1).replace(".png",""));
-        btn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn4.startAnimation(shake);
-                btn2.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn1.setAlpha(0.5f);
-                o++;
-            }
-        });
-
-
-    }
-
-    public void question7()
-    {
-        img5.setVisibility(View.INVISIBLE);
-        img1.setVisibility(View.VISIBLE);
-        img2.setVisibility(View.VISIBLE);
-        img3.setVisibility(View.VISIBLE);
-        img4.setVisibility(View.VISIBLE);
-
-        btn1.setAlpha(1.0f);
-        btn2.setAlpha(1.0f);
-        btn3.setAlpha(1.0f);
-        btn4.setAlpha(1.0f);
-
-
-        textView1.setText("Question 7 of 10");
-        mgr = getAssets();
-        //list of items in a particular
-        flagList = new String[4];
-        try {
-            flagList = mgr.list("North_America");
-            //get the first flag
-            InputStream image = mgr.open("North_America/"+flagList[0]);
-            Drawable drawable = Drawable.createFromStream(image,null);
-            img1.setImageDrawable(drawable);
-
-
-            InputStream image2 = mgr.open("North_America/"+flagList[1]);
-            Drawable drawable2 = Drawable.createFromStream(image2,null);
-            img2.setImageDrawable(drawable2);
-
-
-            InputStream image3 = mgr.open("North_America/"+flagList[2]);
-            Drawable drawable3 = Drawable.createFromStream(image3,null);
-            img3.setImageDrawable(drawable3);
-
-
-            InputStream image4 = mgr.open("North_America/"+flagList[3]);
-            Drawable drawable4 = Drawable.createFromStream(image4,null);
-            img4.setImageDrawable(drawable4);
-
-            InputStream image5 = mgr.open("North_America/"+flagList[2]);
-            Drawable drawable5 = Drawable.createFromStream(image5,null);
-            img5.setImageDrawable(drawable5);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("list","folder not found");
-        }
-        btn1.setText("Asia");
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn1.startAnimation(shake);
-
-                btn2.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                p++;
-            }
-        });
-        btn2.setText("Africa");
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn2.startAnimation(shake);
-
-                btn1.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                p++;
-
-            }
-        });
-        btn3.setText("Europe");
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-
-
-                btn1.setAlpha(0.5f);
-                btn2.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn3.startAnimation(shake);
-                p++;
-
-
-            }
-        });
-        btn4.setText("North_America");
-        btn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                textView.setText("correct");
-                textView.setTextColor(Color.GREEN);
-
-                btn1.setAlpha(0.5f);
-                btn2.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                Animation rotate = AnimationUtils.loadAnimation(secondActivity.this,R.anim.rotate);
-                //set a variable listener that will show a toast when the animation is done
-                rotate.setAnimationListener(rotateListener);
-                //use the animation
-                btn4.startAnimation(rotate);
-                i=7;
-
-
-            }
-        });
-
-    }
-    public void question8()
-    {
-        textView1.setText("Question 8 of 10");
-        //  Toast.makeText(secondActivity.this,"rotate done",Toast.LENGTH_LONG).show();
-        img5.setVisibility(View.VISIBLE);
-        img1.setVisibility(View.INVISIBLE);
-        img2.setVisibility(View.INVISIBLE);
-        img3.setVisibility(View.INVISIBLE);
-        img4.setVisibility(View.INVISIBLE);
-        btn1.setAlpha(1.0f);
-        btn2.setAlpha(1.0f);
-        btn3.setAlpha(1.0f);
-        btn4.setAlpha(1.0f);
-
-        btn1.setText(flagList[1].substring(flagList[1].indexOf('-')+1).replace(".png",""));
-
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn1.startAnimation(shake);
-                btn2.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                q++;
-
-            }
-        });
-
-
-        btn2.setText(flagList[2].substring(flagList[2].indexOf('-')+1).replace(".png",""));
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("AWESOME!");
-                textView.setTextColor(Color.GREEN);
-                btn1.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                // rotation();
-
-                Animation rotate = AnimationUtils.loadAnimation(secondActivity.this,R.anim.rotate);
-                //set a variable listener that will show a toast when the animation is done
-                rotate.setAnimationListener(rotateListener);
-                //use the animation
-                img5.startAnimation(rotate);
-                i=8;
-
-            }
-        });
-
-        btn3.setText(flagList[3].substring(flagList[3].indexOf('-')+1).replace(".png",""));
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn3.startAnimation(shake);
-                btn2.setAlpha(0.5f);
-                btn1.setAlpha(0.5f);
-                btn4.setAlpha(0.5f);
-                q++;
-
-            }
-        });
-
-        btn4.setText(flagList[4].substring(flagList[4].indexOf('-')+1).replace(".png",""));
-        btn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn4.startAnimation(shake);
-                btn2.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn1.setAlpha(0.5f);
-                q++;
-
-            }
-        });
-
-
-    }
-    public void question9()
-    {
-        img5.setVisibility(View.INVISIBLE);
-        img1.setVisibility(View.VISIBLE);
-        img2.setVisibility(View.VISIBLE);
-        img3.setVisibility(View.VISIBLE);
-        img4.setVisibility(View.VISIBLE);
-        btn4.setVisibility(View.INVISIBLE);
-        btn5.setVisibility(View.VISIBLE);
-        btn1.setAlpha(1.0f);
-        btn2.setAlpha(1.0f);
-        btn3.setAlpha(1.0f);
-
-
-
-        textView1.setText("Question 9 of 10");
-        mgr = getAssets();
-        //list of items in a particular
-        flagList = new String[4];
-        try {
-            flagList = mgr.list("South_America");
-            //get the first flag
-            InputStream image = mgr.open("South_America/"+flagList[0]);
-            Drawable drawable = Drawable.createFromStream(image,null);
-            img1.setImageDrawable(drawable);
-
-
-            InputStream image2 = mgr.open("South_America/"+flagList[1]);
-            Drawable drawable2 = Drawable.createFromStream(image2,null);
-            img2.setImageDrawable(drawable2);
-
-
-            InputStream image3 = mgr.open("South_America/"+flagList[2]);
-            Drawable drawable3 = Drawable.createFromStream(image3,null);
-            img3.setImageDrawable(drawable3);
-
-
-            InputStream image4 = mgr.open("South_America/"+flagList[3]);
-            Drawable drawable4 = Drawable.createFromStream(image4,null);
-            img4.setImageDrawable(drawable4);
-
-            InputStream image5 = mgr.open("South_America/"+flagList[2]);
-            Drawable drawable5 = Drawable.createFromStream(image5,null);
-            img5.setImageDrawable(drawable5);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("list","folder not found");
-        }
-        btn1.setText("Asia");
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn1.startAnimation(shake);
-
-                btn2.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn5.setAlpha(0.5f);
-                r++;
-            }
-        });
-        btn2.setText("Africa");
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn2.startAnimation(shake);
-
-                btn1.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn5.setAlpha(0.5f);
-                r++;
-
-            }
-        });
-        btn3.setText("Europe");
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-
-
-                btn1.setAlpha(0.5f);
-                btn2.setAlpha(0.5f);
-                btn5.setAlpha(0.5f);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn3.startAnimation(shake);
-                r++;
-
-
-            }
-        });
-        btn5.setText("South_America");
-        btn5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                textView.setText("correct");
-                textView.setTextColor(Color.GREEN);
-
-                btn1.setAlpha(0.5f);
-                btn2.setAlpha(0.5f);
-                btn5.setAlpha(0.5f);
-                Animation rotate = AnimationUtils.loadAnimation(secondActivity.this,R.anim.rotate);
-                //set a variable listener that will show a toast when the animation is done
-                rotate.setAnimationListener(rotateListener);
-                //use the animation
-                btn5.startAnimation(rotate);
-                i=9;
-
-
-            }
-        });
-
-    }
-    public void question10()
-    {
-        textView1.setText("Question 10 of 10");
-        //  Toast.makeText(secondActivity.this,"rotate done",Toast.LENGTH_LONG).show();
-        img5.setVisibility(View.VISIBLE);
-        img1.setVisibility(View.INVISIBLE);
-        img2.setVisibility(View.INVISIBLE);
-        img3.setVisibility(View.INVISIBLE);
-        img4.setVisibility(View.INVISIBLE);
-        btn1.setAlpha(1.0f);
-        btn2.setAlpha(1.0f);
-        btn3.setAlpha(1.0f);
-        btn5.setAlpha(1.0f);
-
-        btn1.setText(flagList[1].substring(flagList[1].indexOf('-')+1).replace(".png",""));
-
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn1.startAnimation(shake);
-                btn2.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn5.setAlpha(0.5f);
-                s++;
-
-            }
-        });
-
-
-        btn2.setText(flagList[2].substring(flagList[2].indexOf('-')+1).replace(".png",""));
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("AWESOME!");
-                textView.setTextColor(Color.GREEN);
-                btn1.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn5.setAlpha(0.5f);
-                // rotation();
-
-                Animation rotate = AnimationUtils.loadAnimation(secondActivity.this,R.anim.rotate);
-                //set a variable listener that will show a toast when the animation is done
-                rotate.setAnimationListener(rotateListener);
-                //use the animation
-                img5.startAnimation(rotate);
-                i=10;
-
-            }
-        });
-
-        btn3.setText(flagList[3].substring(flagList[3].indexOf('-')+1).replace(".png",""));
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn3.startAnimation(shake);
-                btn2.setAlpha(0.5f);
-                btn1.setAlpha(0.5f);
-                btn5.setAlpha(0.5f);
-                s++;
-
-            }
-        });
-
-        btn5.setText(flagList[4].substring(flagList[4].indexOf('-')+1).replace(".png",""));
-        btn5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("Incorrect");
-                textView.setTextColor(Color.RED);
-                Animation shake = AnimationUtils.loadAnimation(secondActivity.this,R.anim.shake);
-                shake.setAnimationListener(shakeListener);
-                //use the animation
-                btn5.startAnimation(shake);
-                btn2.setAlpha(0.5f);
-                btn3.setAlpha(0.5f);
-                btn1.setAlpha(0.5f);
-                s++;
-
-            }
-        });
-
-
-    }
-
 
     @Override
-    public void onActivityResult(int reqCode,int resultCode,Intent data){
-        if(reqCode == 100){
-            if (resultCode == 0){//0 is my ok code
-                String myinfo = data.getStringExtra("info");
-                textView.setText(myinfo);
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+        spinner = (Spinner) findViewById(R.id.spinner1);
+
+        switch(position)
+        {
+
+            case 1:
+
+                spinner.setVisibility(View.INVISIBLE);
+            {
+                imgv1 = (ImageView) findViewById(R.id.imageView1);
+                imgv1.setVisibility(VISIBLE);
+                imgv1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        imgv1.setImageResource(R.drawable.apple);
+                        imgv1.setEnabled(false);
+                        i = 1;
+                        if (i == j) {
+                            Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                            // shake.AnimationListener(shakeListener);
+                           // imgv1 = (ImageView) findViewById(R.id.imageView1);
+                            imgv1.startAnimation(rotate);
+                            imgv4.startAnimation(rotate);
+                             imgv1.setAlpha(0.5f);
+                            imgv4.setAlpha(0.5f);
+                        }
+                        if((i+j+k+l+m+n)==6){
+                            Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                            spinner.setVisibility(VISIBLE);
+
+                        }
+
+                    }
+                });
+
+                imgv2 = (ImageView) findViewById(R.id.imageView2);
+                imgv2.setVisibility(VISIBLE);
+                imgv2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        imgv2.setImageResource(R.drawable.banana);
+                        imgv2.setEnabled(false);
+                        k = 1;
+                        if (k == l) {
+                            Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                            // shake.AnimationListener(shakeListener);
+                           // imgv2 = (ImageView) findViewById(R.id.imageView2);
+                            imgv2.startAnimation(rotate);
+                            imgv5.startAnimation(rotate);
+                            imgv2.setAlpha(0.5f);
+                            imgv5.setAlpha(0.5f);
+
+                        }
+                        if((i+j+k+l+m+n)==6){
+                            Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                            spinner.setVisibility(VISIBLE);
+                        }
+                    }
+                });
+                imgv3 = (ImageView) findViewById(R.id.imageView3);
+                imgv3.setVisibility(VISIBLE);
+                imgv3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        imgv3.setImageResource(R.drawable.mango);
+                        imgv3.setEnabled(false);
+                        m = 1;
+                        if (m == n) {
+                            Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                            // shake.AnimationListener(shakeListener);
+                            imgv3 = (ImageView) findViewById(R.id.imageView3);
+                            imgv3.startAnimation(rotate);
+                            imgv6.startAnimation(rotate);
+                            imgv3.setAlpha(0.5f);
+                            imgv6.setAlpha(0.5f);
+
+
+                        }
+                        if((i+j+k+l+m+n)==6){
+                            Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                            spinner.setVisibility(VISIBLE);
+                        }
+                    }
+                });
+                imgv4 = (ImageView) findViewById(R.id.imageView6);
+                imgv4.setVisibility(VISIBLE);
+                imgv4.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        imgv4.setImageResource(R.drawable.apple);
+                        imgv4.setEnabled(false);
+                        j = 1;
+                        if (i == j) {
+                            Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                            // shake.AnimationListener(shakeListener);
+                            //imageview1 = (ImageView) findViewById(R.id.imageView1);
+                            imgv1.startAnimation(rotate);
+                            imgv4.startAnimation(rotate);
+                            imgv1.setAlpha(0.5f);
+                            imgv4.setAlpha(0.5f);
+
+                        }
+                        if((i+j+k+l+m+n)==6){
+                            Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                            spinner.setVisibility(VISIBLE);
+                        }
+
+                    }
+                });
+
+                imgv5 = (ImageView) findViewById(R.id.imageView7);
+                imgv5.setVisibility(VISIBLE);
+                imgv5.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        imgv5.setImageResource(R.drawable.banana);
+                        imgv5.setEnabled(false);
+                        l = 1;
+                        if (k == l) {
+                            Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                            // shake.AnimationListener(shakeListener);
+                            //imgv2 = (ImageView) findViewById(R.id.imageView2);
+                            imgv2.startAnimation(rotate);
+                            imgv5.startAnimation(rotate);
+                            imgv2.setAlpha(0.5f);
+                            imgv5.setAlpha(0.5f);
+
+                        }
+                        if((i+j+k+l+m+n)==6){
+                            Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                            spinner.setVisibility(VISIBLE);
+                        }
+                    }
+                });
+                imgv6 = (ImageView) findViewById(R.id.imageView8);
+                imgv6.setVisibility(VISIBLE);
+                imgv6.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        imgv6.setImageResource(R.drawable.mango);
+                        imgv6.setEnabled(false);
+                        n = 1;
+                        if (m == n) {
+                            Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                            // shake.AnimationListener(shakeListener);
+                            //imageview3 = (ImageView) findViewById(R.id.imageView3);
+                            imgv3.startAnimation(rotate);
+                            imgv6.startAnimation(rotate);
+                            imgv3.setAlpha(0.5f);
+                            imgv6.setAlpha(0.5f);
+
+
+                        }
+                        if((i+j+k+l+m+n)==6){
+                            Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                            spinner.setVisibility(VISIBLE);
+
+                        }
+
+                    }
+                });
+
             }
+
+            break;
+
+
+            case 2:
+                spinner.setVisibility(View.INVISIBLE);
+                imgv1.setAlpha(1.0f);   //To bring back to original imageview
+                imgv1.clearAnimation();
+                imgv1.setImageResource(R.drawable.front);
+                imgv2.setAlpha(1.0f);
+                imgv2.clearAnimation();
+                imgv2.setImageResource(R.drawable.front);
+                imgv3.setAlpha(1.0f);
+                imgv3.clearAnimation();
+                imgv3.setImageResource(R.drawable.front);
+                imgv4.setAlpha(1.0f);
+                imgv4.clearAnimation();
+                imgv4.setImageResource(R.drawable.front);
+                imgv5.setAlpha(1.0f);
+                imgv5.clearAnimation();
+                imgv5.setImageResource(R.drawable.front);
+                imgv6.setAlpha(1.0f);
+                imgv6.clearAnimation();
+                imgv6.setImageResource(R.drawable.front);
+            {
+                imgv1 = (ImageView) findViewById(R.id.imageView1);
+                imgv1.setVisibility(VISIBLE);
+                imgv1.setEnabled(true);
+                imgv1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        imgv1.setImageResource(R.drawable.apple);
+                        i = 2;
+                        if (i == j) {
+                            Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                            // shake.AnimationListener(shakeListener);
+                            // imgv1 = (ImageView) findViewById(R.id.imageView1);
+                            imgv1.startAnimation(rotate);
+                            imgv4.startAnimation(rotate);
+                            imgv1.setAlpha(0.5f);
+                            imgv4.setAlpha(0.5f);
+
+                        }
+                        if((i+j+k+l+m+n+o+p+q+r)==20){
+                            Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                            spinner.setVisibility(VISIBLE);
+                        }
+
+                    }
+
+                });
+
+                imgv2 = (ImageView) findViewById(R.id.imageView2);
+                imgv2.setVisibility(VISIBLE);
+                imgv2.setEnabled(true);
+                imgv2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        imgv2.setImageResource(R.drawable.banana);
+                        k = 2;
+                        if (k == l) {
+                            Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                            // shake.AnimationListener(shakeListener);
+                            // imgv2 = (ImageView) findViewById(R.id.imageView2);
+                            imgv2.startAnimation(rotate);
+                            imgv5.startAnimation(rotate);
+                            imgv2.setAlpha(0.5f);
+                            imgv5.setAlpha(0.5f);
+                        }
+                        if((i+j+k+l+m+n+o+p+q+r)==20){
+                            Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                            spinner.setVisibility(VISIBLE);
+                        }
+
+                    }
+                });
+                imgv3 = (ImageView) findViewById(R.id.imageView3);
+                imgv3.setVisibility(VISIBLE);
+                imgv3.setEnabled(true);
+                imgv3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        imgv3.setImageResource(R.drawable.mango);
+                        m = 2;
+                        if (m == n) {
+                            Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                            // shake.AnimationListener(shakeListener);
+                            imgv3 = (ImageView) findViewById(R.id.imageView3);
+                            imgv3.startAnimation(rotate);
+                            imgv6.startAnimation(rotate);
+                            imgv3.setAlpha(0.5f);
+                            imgv6.setAlpha(0.5f);
+
+                        }
+                        if((i+j+k+l+m+n+o+p+q+r)==20){
+                            Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                            spinner.setVisibility(VISIBLE);
+                        }
+
+                    }
+                });
+                imgv4 = (ImageView) findViewById(R.id.imageView6);
+                imgv4.setVisibility(VISIBLE);
+                imgv4.setEnabled(true);
+                imgv4.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        imgv4.setImageResource(R.drawable.apple);
+                        j = 2;
+                        if (i == j) {
+                            Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                            // shake.AnimationListener(shakeListener);
+                            //imageview1 = (ImageView) findViewById(R.id.imageView1);
+                            imgv1.startAnimation(rotate);
+                            imgv4.startAnimation(rotate);
+                            imgv1.setAlpha(0.5f);
+                            imgv4.setAlpha(0.5f);
+                        }
+                        if((i+j+k+l+m+n+o+p+q+r)==20){
+                            Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                            spinner.setVisibility(VISIBLE);
+                        }
+
+
+                    }
+                });
+
+                imgv5 = (ImageView) findViewById(R.id.imageView7);
+                imgv5.setVisibility(VISIBLE);
+                imgv5.setEnabled(true);
+                imgv5.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        imgv5.setImageResource(R.drawable.banana);
+                        l = 2;
+                        if (k == l) {
+                            Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                            // shake.AnimationListener(shakeListener);
+                            //imgv2 = (ImageView) findViewById(R.id.imageView2);
+                            imgv2.startAnimation(rotate);
+                            imgv5.startAnimation(rotate);
+                            imgv2.setAlpha(0.5f);
+                            imgv5.setAlpha(0.5f);
+                        }
+                        if((i+j+k+l+m+n+o+p+q+r)==20){
+                            Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                            spinner.setVisibility(VISIBLE);
+                        }
+
+                    }
+                });
+                imgv6 = (ImageView) findViewById(R.id.imageView8);
+                imgv6.setVisibility(VISIBLE);
+                imgv6.setEnabled(true);
+                imgv6.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        imgv6.setImageResource(R.drawable.mango);
+                        n = 2;
+                        if (m == n) {
+                            Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                            // shake.AnimationListener(shakeListener);
+                            //imageview3 = (ImageView) findViewById(R.id.imageView3);
+                            imgv3.startAnimation(rotate);
+                            imgv6.startAnimation(rotate);
+                            imgv3.setAlpha(0.5f);
+                            imgv6.setAlpha(0.5f);
+                        }
+                        if((i+j+k+l+m+n+o+p+q+r)==20){
+                            Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                            spinner.setVisibility(VISIBLE);
+                        }
+
+
+                    }
+                });
+                imgv7 = (ImageView)findViewById(R.id.imageView4);
+                imgv7.setVisibility(VISIBLE);
+                imgv7.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        imgv7.setImageResource(R.drawable.cherries);
+                        o = 2;
+                        if (o == p) {
+                            Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                            // shake.AnimationListener(shakeListener);
+                            //imageview3 = (ImageView) findViewById(R.id.imageView3);
+                            imgv7.startAnimation(rotate);
+                            imgv8.startAnimation(rotate);
+                            imgv7.setAlpha(0.5f);
+                            imgv8.setAlpha(0.5f);
+                        }
+                        if((i+j+k+l+m+n+o+p+q+r)==20){
+                            Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                            spinner.setVisibility(VISIBLE);
+                        }
+
+                    }
+                });
+                imgv8 = (ImageView)findViewById(R.id.imageView9);
+                imgv8.setVisibility(VISIBLE);
+                imgv8.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        imgv8.setImageResource(R.drawable.cherries);
+                        p = 2;
+                        if (o == p) {
+                            Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                            // shake.AnimationListener(shakeListener);
+                            //imageview3 = (ImageView) findViewById(R.id.imageView3);
+                            imgv7.startAnimation(rotate);
+                            imgv8.startAnimation(rotate);
+                            imgv7.setAlpha(0.5f);
+                            imgv8.setAlpha(0.5f);
+                        }
+                        if((i+j+k+l+m+n+o+p+q+r)==20){
+                            Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                            spinner.setVisibility(VISIBLE);
+                        }
+
+
+                    }
+                });
+                imgv9 = (ImageView)findViewById(R.id.imageView5);
+                imgv9.setVisibility(VISIBLE);
+                imgv9.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        imgv9.setImageResource(R.drawable.kiwi);
+                        q = 2;
+                        if (q == r) {
+                            Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                            // shake.AnimationListener(shakeListener);
+                            //imageview3 = (ImageView) findViewById(R.id.imageView3);
+                            imgv9.startAnimation(rotate);
+                            imgv10.startAnimation(rotate);
+                            imgv9.setAlpha(0.5f);
+                            imgv10.setAlpha(0.5f);
+
+                        }
+                        if((i+j+k+l+m+n+o+p+q+r)==20){
+                            Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                            spinner.setVisibility(VISIBLE);
+                        }
+
+
+                    }
+                });
+                imgv10 = (ImageView)findViewById(R.id.imageView10);
+                imgv10.setVisibility(VISIBLE);
+                imgv10.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        imgv10.setImageResource(R.drawable.kiwi);
+                        r = 2;
+                        if (q == r) {
+                            Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                            // shake.AnimationListener(shakeListener);
+                            //imageview3 = (ImageView) findViewById(R.id.imageView3);
+                            imgv9.startAnimation(rotate);
+                            imgv10.startAnimation(rotate);
+                            imgv9.setAlpha(0.5f);
+                            imgv10.setAlpha(0.5f);
+
+
+                        }
+                        if((i+j+k+l+m+n+o+p+q+r)==20){
+                            Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                            spinner.setVisibility(VISIBLE);
+                        }
+
+                    }
+                });
+
+            }
+
+         break;
+
+
+   case 3:
+       spinner.setVisibility(View.INVISIBLE);
+       imgv1.setAlpha(1.0f);   //To bring back to original imageview
+       imgv1.clearAnimation();
+       imgv1.setImageResource(R.drawable.front);
+       imgv2.setAlpha(1.0f);
+       imgv2.clearAnimation();
+       imgv2.setImageResource(R.drawable.front);
+       imgv3.setAlpha(1.0f);
+       imgv3.clearAnimation();
+       imgv3.setImageResource(R.drawable.front);
+       imgv4.setAlpha(1.0f);
+       imgv4.clearAnimation();
+       imgv4.setImageResource(R.drawable.front);
+       imgv5.setAlpha(1.0f);
+       imgv5.clearAnimation();
+       imgv5.setImageResource(R.drawable.front);
+       imgv6.setAlpha(1.0f);
+       imgv6.clearAnimation();
+       imgv6.setImageResource(R.drawable.front);
+       imgv7.setAlpha(1.0f);
+       imgv7.clearAnimation();
+       imgv7.setImageResource(R.drawable.front);
+       imgv8.setAlpha(1.0f);
+       imgv8.clearAnimation();
+       imgv8.setImageResource(R.drawable.front);
+       imgv9.setAlpha(1.0f);
+       imgv9.clearAnimation();
+       imgv9.setImageResource(R.drawable.front);
+       imgv10.setAlpha(1.0f);
+       imgv10.clearAnimation();
+       imgv10.setImageResource(R.drawable.front);
+   {
+       imgv1 = (ImageView) findViewById(R.id.imageView1);
+       imgv1.setVisibility(VISIBLE);
+       imgv1.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               imgv1.setImageResource(R.drawable.apple);
+               i = 3;
+               if (i == j) {
+                   Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                   // shake.AnimationListener(shakeListener);
+                   // imgv1 = (ImageView) findViewById(R.id.imageView1);
+                   imgv1.startAnimation(rotate);
+                   imgv4.startAnimation(rotate);
+                   imgv1.setAlpha(0.5f);
+                   imgv4.setAlpha(0.5f);
+
+               }
+               if((i+j+k+l+m+n+o+p+q+r+s+t+u+w+x+y+z+a+b+c)==60){
+                   Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                   spinner.setVisibility(VISIBLE);
+               }
+           }
+       });
+
+       imgv2 = (ImageView) findViewById(R.id.imageView2);
+       imgv2.setVisibility(VISIBLE);
+       imgv2.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               imgv2.setImageResource(R.drawable.banana);
+               k = 3;
+               if (k == l) {
+                   Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                   // shake.AnimationListener(shakeListener);
+                   // imgv2 = (ImageView) findViewById(R.id.imageView2);
+                   imgv2.startAnimation(rotate);
+                   imgv5.startAnimation(rotate);
+                   imgv2.setAlpha(0.5f);
+                   imgv5.setAlpha(0.5f);
+               }
+               if((i+j+k+l+m+n+o+p+q+r+s+t+u+w+x+y+z+a+b+c)==60){
+                   Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                   spinner.setVisibility(VISIBLE);
+               }
+           }
+       });
+       imgv3 = (ImageView) findViewById(R.id.imageView3);
+       imgv3.setVisibility(VISIBLE);
+       imgv3.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               imgv3.setImageResource(R.drawable.mango);
+               m = 3;
+               if (m == n) {
+                   Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                   // shake.AnimationListener(shakeListener);
+                   imgv3 = (ImageView) findViewById(R.id.imageView3);
+                   imgv3.startAnimation(rotate);
+                   imgv6.startAnimation(rotate);
+                   imgv3.setAlpha(0.5f);
+                   imgv6.setAlpha(0.5f);
+               }
+               if((i+j+k+l+m+n+o+p+q+r+s+t+u+w+x+y+z+a+b+c)==60){
+                   Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                   spinner.setVisibility(VISIBLE);
+               }
+           }
+       });
+       imgv4 = (ImageView) findViewById(R.id.imageView6);
+       imgv4.setVisibility(VISIBLE);
+       imgv4.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               imgv4.setImageResource(R.drawable.apple);
+               j = 3;
+               if (i == j) {
+                   Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                   // shake.AnimationListener(shakeListener);
+                   //imageview1 = (ImageView) findViewById(R.id.imageView1);
+                   imgv1.startAnimation(rotate);
+                   imgv4.startAnimation(rotate);
+                   imgv1.setAlpha(0.5f);
+                   imgv4.setAlpha(0.5f);
+
+               }
+               if((i+j+k+l+m+n+o+p+q+r+s+t+u+w+x+y+z+a+b+c)==60){
+                   Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                   spinner.setVisibility(VISIBLE);
+               }
+
+           }
+       });
+
+       imgv5 = (ImageView) findViewById(R.id.imageView7);
+       imgv5.setVisibility(VISIBLE);
+       imgv5.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               imgv5.setImageResource(R.drawable.banana);
+               l = 3;
+               if (k == l) {
+                   Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                   // shake.AnimationListener(shakeListener);
+                   //imgv2 = (ImageView) findViewById(R.id.imageView2);
+                   imgv2.startAnimation(rotate);
+                   imgv5.startAnimation(rotate);
+                   imgv2.setAlpha(0.5f);
+                   imgv5.setAlpha(0.5f);
+
+               }
+               if((i+j+k+l+m+n+o+p+q+r+s+t+u+w+x+y+z+a+b+c)==60){
+                   Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                   spinner.setVisibility(VISIBLE);
+               }
+           }
+       });
+       imgv6 = (ImageView) findViewById(R.id.imageView8);
+       imgv6.setVisibility(VISIBLE);
+       imgv6.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               imgv6.setImageResource(R.drawable.mango);
+               n = 3;
+               if (m == n) {
+                   Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                   // shake.AnimationListener(shakeListener);
+                   //imageview3 = (ImageView) findViewById(R.id.imageView3);
+                   imgv3.startAnimation(rotate);
+                   imgv6.startAnimation(rotate);
+                   imgv3.setAlpha(0.5f);
+                   imgv6.setAlpha(0.5f);
+               }
+               if((i+j+k+l+m+n+o+p+q+r+s+t+u+w+x+y+z+a+b+c)==60){
+                   Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                   spinner.setVisibility(VISIBLE);
+               }
+
+           }
+       });
+       imgv7 = (ImageView)findViewById(R.id.imageView4);
+       imgv7.setVisibility(VISIBLE);
+       imgv7.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               imgv7.setImageResource(R.drawable.cherries);
+               o = 3;
+               if (o == p) {
+                   Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                   // shake.AnimationListener(shakeListener);
+                   //imageview3 = (ImageView) findViewById(R.id.imageView3);
+                   imgv7.startAnimation(rotate);
+                   imgv8.startAnimation(rotate);
+                   imgv7.setAlpha(0.5f);
+                   imgv8.setAlpha(0.5f);
+               }
+               if((i+j+k+l+m+n+o+p+q+r+s+t+u+w+x+y+z+a+b+c)==60){
+                   Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                   spinner.setVisibility(VISIBLE);
+               }
+           }
+       });
+       imgv8 = (ImageView)findViewById(R.id.imageView9);
+       imgv8.setVisibility(VISIBLE);
+       imgv8.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               imgv8.setImageResource(R.drawable.cherries);
+               p = 3;
+               if (o == p) {
+                   Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                   // shake.AnimationListener(shakeListener);
+                   //imageview3 = (ImageView) findViewById(R.id.imageView3);
+                   imgv7.startAnimation(rotate);
+                   imgv8.startAnimation(rotate);
+                   imgv7.setAlpha(0.5f);
+                   imgv8.setAlpha(0.5f);
+               }
+               if((i+j+k+l+m+n+o+p+q+r+s+t+u+w+x+y+z+a+b+c)==60){
+                   Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                   spinner.setVisibility(VISIBLE);
+               }
+
+           }
+       });
+       imgv9 = (ImageView)findViewById(R.id.imageView5);
+       imgv9.setVisibility(VISIBLE);
+       imgv9.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               imgv9.setImageResource(R.drawable.kiwi);
+               q = 3;
+               if (q == r) {
+                   Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                   // shake.AnimationListener(shakeListener);
+                   //imageview3 = (ImageView) findViewById(R.id.imageView3);
+                   imgv9.startAnimation(rotate);
+                   imgv10.startAnimation(rotate);
+                   imgv9.setAlpha(0.5f);
+                   imgv10.setAlpha(0.5f);
+
+               }
+               if((i+j+k+l+m+n+o+p+q+r+s+t+u+w+x+y+z+a+b+c)==60){
+                   Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                   spinner.setVisibility(VISIBLE);
+               }
+
+           }
+       });
+       imgv10 = (ImageView)findViewById(R.id.imageView10);
+       imgv10.setVisibility(VISIBLE);
+       imgv10.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               imgv10.setImageResource(R.drawable.kiwi);
+               r = 3;
+               if (q == r) {
+                   Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                   // shake.AnimationListener(shakeListener);
+                   //imageview3 = (ImageView) findViewById(R.id.imageView3);
+                   imgv9.startAnimation(rotate);
+                   imgv10.startAnimation(rotate);
+                   imgv9.setAlpha(0.5f);
+                   imgv10.setAlpha(0.5f);
+               }
+               if((i+j+k+l+m+n+o+p+q+r+s+t+u+w+x+y+z+a+b+c)==60){
+                   Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                   spinner.setVisibility(VISIBLE);
+               }
+
+           }
+       });
+
+       imgv11 = (ImageView)findViewById(R.id.imageView11);
+       imgv11.setVisibility(VISIBLE);
+       imgv11.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               imgv11.setImageResource(R.drawable.papaya);
+               s = 3;
+               if (s == t) {
+                   Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                   // shake.AnimationListener(shakeListener);
+                   //imageview3 = (ImageView) findViewById(R.id.imageView3);
+                   imgv11.startAnimation(rotate);
+                   imgv12.startAnimation(rotate);
+                   imgv11.setAlpha(0.5f);
+                   imgv12.setAlpha(0.5f);
+               }
+               if((i+j+k+l+m+n+o+p+q+r+s+t+u+w+x+y+z+a+b+c)==60){
+                   Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                   spinner.setVisibility(VISIBLE);
+               }
+
+           }
+       });
+       imgv12 = (ImageView)findViewById(R.id.imageView20);
+       imgv12.setVisibility(VISIBLE);
+       imgv12.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               imgv12.setImageResource(R.drawable.papaya);
+               t = 3;
+               if (s == t) {
+                   Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                   // shake.AnimationListener(shakeListener);
+                   //imageview3 = (ImageView) findViewById(R.id.imageView3);
+                   imgv11.startAnimation(rotate);
+                   imgv12.startAnimation(rotate);
+                   imgv11.setAlpha(0.5f);
+                   imgv12.setAlpha(0.5f);
+
+               }
+               if((i+j+k+l+m+n+o+p+q+r+s+t+u+w+x+y+z+a+b+c)==60){
+                   Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                   spinner.setVisibility(VISIBLE);
+               }
+
+           }
+       });
+       imgv13 = (ImageView)findViewById(R.id.imageView12);
+       imgv13.setVisibility(VISIBLE);
+       imgv13.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               imgv13.setImageResource(R.drawable.pineapple);
+               u = 3;
+               if (u == w) {
+                   Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                   // shake.AnimationListener(shakeListener);
+                   //imageview3 = (ImageView) findViewById(R.id.imageView3);
+                   imgv13.startAnimation(rotate);
+                   imgv14.startAnimation(rotate);
+                   imgv13.setAlpha(0.5f);
+                   imgv14.setAlpha(0.5f);
+
+               }
+               if((i+j+k+l+m+n+o+p+q+r+s+t+u+w+x+y+z+a+b+c)==60){
+                   Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                   spinner.setVisibility(VISIBLE);
+               }
+
+           }
+       });
+       imgv14 = (ImageView)findViewById(R.id.imageView19);
+       imgv14.setVisibility(VISIBLE);
+       imgv14.setOnClickListener(new View.OnClickListener() {
+           public void onClick(View v) {
+               imgv14.setImageResource(R.drawable.pineapple);
+               w = 3;
+               if (u == w) {
+                   Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                   // shake.AnimationListener(shakeListener);
+                   //imageview3 = (ImageView) findViewById(R.id.imageView3);
+                   imgv13.startAnimation(rotate);
+                   imgv14.startAnimation(rotate);
+                   imgv13.setAlpha(0.5f);
+                   imgv14.setAlpha(0.5f);
+
+               }
+               if((i+j+k+l+m+n+o+p+q+r+s+t+u+w+x+y+z+a+b+c)==60){
+                   Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                   spinner.setVisibility(VISIBLE);
+               }
+
+           }
+       });
+       imgv15 = (ImageView)findViewById(R.id.imageView13);
+       imgv15.setVisibility(VISIBLE);
+       imgv15.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               imgv15.setImageResource(R.drawable.grapes);
+               x = 3;
+               if (x == y) {
+                   Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                   // shake.AnimationListener(shakeListener);
+                   //imageview3 = (ImageView) findViewById(R.id.imageView3);
+                   imgv15.startAnimation(rotate);
+                   imgv16.startAnimation(rotate);
+                   imgv15.setAlpha(0.5f);
+                   imgv16.setAlpha(0.5f);
+
+               }
+               if((i+j+k+l+m+n+o+p+q+r+s+t+u+w+x+y+z+a+b+c)==60){
+                   Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                   spinner.setVisibility(VISIBLE);
+               }
+
+           }
+       });
+       imgv16 = (ImageView)findViewById(R.id.imageView18);
+       imgv16.setVisibility(VISIBLE);
+       imgv16.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               imgv16.setImageResource(R.drawable.grapes);
+               y = 3;
+               if (x == y) {
+                   Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                   // shake.AnimationListener(shakeListener);
+                   //imageview3 = (ImageView) findViewById(R.id.imageView3);
+                   imgv15.startAnimation(rotate);
+                   imgv16.startAnimation(rotate);
+                   imgv15.setAlpha(0.5f);
+                   imgv16.setAlpha(0.5f);
+
+               }
+               if((i+j+k+l+m+n+o+p+q+r+s+t+u+w+x+y+z+a+b+c)==60){
+                   Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                   spinner.setVisibility(VISIBLE);
+               }
+
+           }
+       });
+       imgv17 = (ImageView)findViewById(R.id.imageView14);
+       imgv17.setVisibility(VISIBLE);
+       imgv17.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               imgv17.setImageResource(R.drawable.watermelon);
+               z = 3;
+               if (z == a) {
+                   Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                   // shake.AnimationListener(shakeListener);
+                   //imageview3 = (ImageView) findViewById(R.id.imageView3);
+                   imgv17.startAnimation(rotate);
+                   imgv18.startAnimation(rotate);
+                   imgv17.setAlpha(0.5f);
+                   imgv18.setAlpha(0.5f);
+
+               }
+               if((i+j+k+l+m+n+o+p+q+r+s+t+u+w+x+y+z+a+b+c)==60){
+                   Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                   spinner.setVisibility(VISIBLE);
+               }
+
+           }
+       });
+       imgv18 = (ImageView)findViewById(R.id.imageView17);
+       imgv18.setVisibility(VISIBLE);
+       imgv18.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               imgv18.setImageResource(R.drawable.watermelon);
+               a = 3;
+               if (z == a) {
+                   Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                   // shake.AnimationListener(shakeListener);
+                   //imageview3 = (ImageView) findViewById(R.id.imageView3);
+                   imgv17.startAnimation(rotate);
+                   imgv18.startAnimation(rotate);
+                   imgv17.setAlpha(0.5f);
+                   imgv18.setAlpha(0.5f);
+               }
+               if((i+j+k+l+m+n+o+p+q+r+s+t+u+w+x+y+z+a+b+c)==60){
+                   Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                   spinner.setVisibility(VISIBLE);
+               }
+           }
+       });
+       imgv19 = (ImageView)findViewById(R.id.imageView15);
+       imgv19.setVisibility(VISIBLE);
+       imgv19.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               imgv19.setImageResource(R.drawable.orange);
+               b = 3;
+               if (b == c) {
+
+                   Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                   // shake.AnimationListener(shakeListener);
+                   //imageview3 = (ImageView) findViewById(R.id.imageView3);
+                   imgv19.startAnimation(rotate);
+                   imgv20.startAnimation(rotate);
+                   imgv19.setAlpha(0.5f);
+                   imgv20.setAlpha(0.5f);
+
+               }
+               if((i+j+k+l+m+n+o+p+q+r+s+t+u+w+x+y+z+a+b+c)==60){
+                   Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                   spinner.setVisibility(VISIBLE);
+               }
+
+           }
+       });
+       imgv20 = (ImageView)findViewById(R.id.imageView16);
+       imgv20.setVisibility(VISIBLE);
+       imgv20.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               imgv20.setImageResource(R.drawable.orange);
+               c = 3;
+               if (b == c) {
+                   Animation rotate = AnimationUtils.loadAnimation(secondActivity.this, R.anim.rotation);
+                   // shake.AnimationListener(shakeListener);
+                   //imageview3 = (ImageView) findViewById(R.id.imageView3);
+                   imgv19.startAnimation(rotate);
+                   imgv20.startAnimation(rotate);
+                   imgv19.setAlpha(0.5f);
+                   imgv20.setAlpha(0.5f);
+
+               }
+               if((i+j+k+l+m+n+o+p+q+r+s+t+u+w+x+y+z+a+b+c)==60){
+                   Toast.makeText(spinner.getContext(),"Game over",Toast.LENGTH_SHORT).show();
+                   spinner.setVisibility(VISIBLE);
+               }
+
+           }
+       });
+
+
+
+   }
+
+      break;
         }
+
+
     }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+
+
+   }
+
+
+Animation.AnimationListener shakeListener=new Animation.AnimationListener() {
+    @Override
+    public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+        Toast.makeText(secondActivity.this,"shakedone",Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
+    }
+};
+
+
 }
+
+
+
+
+
+
+
+
+
